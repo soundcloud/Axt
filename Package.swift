@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Axt",
+    platforms: [.iOS(.v14)],
     products: [
         .library(
             name: "Axt",
@@ -12,6 +13,9 @@ let package = Package(
     targets: [
         .target(
             name: "Axt",
-            dependencies: []),
+            dependencies: [],
+            swiftSettings: [
+                .define("TESTABLE", .when(configuration: .debug))
+            ]),
     ]
 )
