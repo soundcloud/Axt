@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  type: other
+  lifecycle: development
+  owner: beep-team
+metadata:
+  name: repository-template
+  description: SoundCloud's template for GitHub repository generation
