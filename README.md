@@ -1,10 +1,10 @@
 # 🪓 Axt 
 
-Axt is SwiftUI view testing library. It makes use of preferences to enable testing views in-vitro. That means views behave the same as in apps and are fully functional, all SwiftUI property wrappers are in a usable state and views can be interacted with.
+Axt is SwiftUI view testing library. It makes use of preferences to enable testing views. Axt can test views in-vitro, which means that views behave the same as in apps and are fully functional. SwiftUI property wrappers such as `@State` are usable and views can be interacted with.
 
 ## Examples
 
-Take a simple views that displays a number of toggles. Notice the use of the `axt` modifier.
+Take a simple view that displays a number of toggles. Notice the `toggle_1`, `show_more` and `toggle_2` identifiers.
 
 ```swift
 List {
@@ -42,7 +42,7 @@ If you interact with the view in the simulator, a new view hierarchy will be pri
 
 ### Check for a value
 
-We can check the value of a toggle:
+We can check the value of a toggle.
 
 ```swift
 func testValue() async {
@@ -58,7 +58,7 @@ func testValue() async {
 
 ### Perform an action 
 
-We can programmatically tap the toggle in the test:
+We can programmatically tap the toggle in the test.
 
 ```swift
 let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
@@ -67,7 +67,7 @@ moreToggle.performAction()
 
 ### Wait for a condition
 
-We can wait for a toggle to appear:
+We can wait for a toggle to appear.
 
 ```swift
 try await test.waitForCondition(timeout: 1) {
@@ -77,21 +77,23 @@ try await test.waitForCondition(timeout: 1) {
 
 Check out more examples in the AxtExamples project in the Examples folder.
 
-## Getting started
+## Documentation
+
+### Getting started
+
+Follow the steps below to add Axt to an existing project. Note that Axt should be used with unit test targets, and not with UI test targets.
 
 1. Add the Axt Swift package as a dependency to your Xcode project.
 2. Link both your app target and unit test target to the Axt library. If the project is built for release, it will only contain stubs for Axt and no inspection code.
 3. Make sure your unit test target has a host application. We need some app to host the views to test, but the views do not need to be part of this host application.
 
-## Documentation
-
-Axt never tries to read down the view hierarchy, it always reads up. In order to use views in a test, you need to expose them by giving them an Axt identifier and possibly add more information.
-
 ### Exposing views
 
-To enable testing views, we first need to expose them using the `axt` modifier. There are different ways to expose views, depending on whether they are built-in or custom views. You can also add attach Axt elements without explicit child views to a view.
+Axt never tries to read down the view hierarchy, it uses preferences that are transferred up the hierarchy. In order to use views in a test, you need to expose them by giving them an Axt identifier, and optionally add more information such as a value.
 
-#### Simple views and container views
+To expose a view, use the `axt` modifier. There are different ways to expose views, depending on whether they are built-in or custom views. You can also add attach Axt elements without explicit child views to a view.
+
+#### Simple views
 
 You can expose any view or stack by specifying an identifier.
 
@@ -105,7 +107,16 @@ HStack {
 .axt("colors")
 ```
 
-#### Views with values or functionality
+This will be exposed to the tests as below, as you can also check using the `watchHierarchy` function.
+
+```
+→ app
+  → colors
+    → blue
+    → red
+```
+
+#### Values and functionality
 
 You can also specify values or functionality manually to expose them to views.
 
@@ -116,38 +127,19 @@ Color.red.frame(width: 50, height: 50)
     .axt("color_2", value: UIColor.red)
 ```
 
-You can also add closures to perform from tests or ways to set values. This information is transferred up the view hierarchy using preferences. This can then be used from the test to interact with the view hierarchy.
+These can now be accessed from tests.
 
-#### Native views
-
-Because we cannot change native SwiftUI view implementations and add preferences to them, we need a different way to expose their information. To enable Axt on native SwiftUI views, you need to give Axt a hint as to what kind of view it needs to look for:
-
-```swift
-Button("Tap me") { tap() }
-    .axt(.button, "tap_button")
-
-Toggle("Tap me", isOn: $isOn)
-    .axt(.toggle, "is_on_toggle")
-
-NavigationLink("More", destination: Destination())
-    .axt(.navigationLink, "more_link")
-
-TextField("Name", text: $name)
-    .axt(.textField, "name_field")
+```
+→ app
+  → blue value=UIColor.blue
+  → red value=UIColor.red
 ```
 
-You can place the `axt` modifier below other modifiers as well:
+You can also add closures to perform from tests or ways to set values.
 
-```swift
-Button("Tap me") { tap() }
-    .buttonStyle(MyButtonStyle())
-    .tint(.red)
-    .axt(.button, "tap_button")
-```
+#### Reusable controls
 
-#### Custom views
-
-If you use custom controls instead of native SwiftUI controls, you should not use the modifiers like above. Those modifiers try to extract data from the views. For custom controls, that is not necessary, because we can include preferences internally. To specify values or functionality for custom views, but allow clients to set the Axt identifier or override values or functionality, use the `axt` modifier without an identifier.
+It is common to want to specify values or functionality for custom views, but allow clients to set the Axt identifier or override values or functionality. This would be the case for custom buttons or search bars. For this, use the `axt` modifier without an identifier.
 
 ```swift
 struct MyButton: View {
@@ -163,9 +155,62 @@ MyButton() { /* ... */ }
     .axt("my_button")
 ```
 
+An `axt` modifier that does not have an identifier is only exposed to tests if an identifier is provided somewhere hier up in the view hierarchy.
+
+#### Native views
+
+Because we cannot change native SwiftUI view implementations and add preferences to them, we need a different way to expose their information. To enable Axt on native SwiftUI views, you need to give Axt a hint as to what kind of view it needs to look for:
+
+```swift
+Button("Tap me") { tap() }
+    .axt(.button, "tap_button")
+```
+
+```
+→ tap_button label="Tap me" action
+```
+
+```swift
+Toggle("Toggle me", isOn: $isOn)
+    .axt(.toggle, "is_on_toggle")
+```
+
+```
+→ is_on_toggle label="Toggle me" value=true action
+```
+
+```swift
+NavigationLink("More", destination: Destination())
+    .axt(.navigationLink, "more_link")
+```
+
+```
+→ more_link label="More" action
+```
+
+```swift
+TextField("Name", text: $name)
+    .axt(.textField, "name_field")
+```
+
+```
+→ name_field label="Name" value="" action
+```
+
+You can place the `axt` modifier below other modifiers as well:
+
+```swift
+Button("Tap me") { tap() }
+    .buttonStyle(MyButtonStyle())
+    .tint(.red)
+    .axt(.button, "tap_button")
+```
+
+These modifiers try to extract data from the views, and are the only exception to the principle that Axt never tries to read down the view hierarchy. If you use your own controls instead of native SwiftUI controls, you should not use these modifiers, but instead add use `axt` modifiers in their bodies to expose what needs to be accessible from the tests.
+
 #### Inserting extra elements
 
-Sometimes it can be useful to insert Axt elements to a views that do not correspond to a view itself. This can be useful to expose buttons that are handled in UIKit instead, interact with gestures or other objects that are not views, or provide an easy way to interact with view state when testing a view modifier.
+Sometimes it can be useful to insert Axt elements that do not correspond to a SwiftUI view. This can be useful to expose buttons that are handled in UIKit instead, interact with gestures or other objects that are not views, or provide an easy way to interact with view state when testing a view modifier.
 
 For example, here is how we can expose the contents of an alert:
 
@@ -205,4 +250,72 @@ Button("...") { isPresented = true }
             .hostAxSheet()
     }
 ```
+
+### Testing
+
+#### Axt tests
+
+If you want to use Axt in a test, make the test `async` and create the test with the following line.
+
+```swift
+let test = await AxtTest.host(MyView())
+```
+
+This will display `MyView` in the simulator, with a red border around it, to indicite that it is presented by Axt. The `test` is also an Axt element. That means you can call all the functions on it introduced in Axt elements.
+
+#### Axt elements
+
+Axt elements point to a view that is exposed to Axt by the methods presented before, but it differs to a view in that it is a reference type. Even if a view is re-evaluated, an Axt element that points to that view will be the same. The Axt element will track changes in the view. That means you can store an Axt element, make changes to the SwiftUI state, and then check the Axt element again.
+
+```swift
+let test = await AxtTest.host(MyView())
+let label = try XCTUnwrap(test.find(id: "my_label")
+let toggle = try XCTUnwrap(test.find(id: "my_toggle"))
+
+XCTAssertEqual(label.value as? String, "yes")
+
+toggle.performAction()
+await AXTest.yield()
+
+XCTAssertEqual(label.value as? String, "no")
+```
+
+You can check if an Axt element (still) exists (`exists`), and it has an identifier given to it through the `axt` modifier (`id`), and optionally a label (`label`), value (`value`), way to perform an action (`performAction()`), and way to set the value (`setValue`).
+
+For any Axt element, you can use `await element.watchHierarchy()` to see how the hierarchy changes while interacting with it in the simulator or on your iPhone.
+
+#### Traversing the hierarchy
+
+You can get the direct children of an element using the `children` method. To recursively get all elements underneath another element, use the `all` property instead.
+
+You can also use `find(id: "my_button")` to recursively search for an element with id `my_button`, or `findAll(id: "my_button")` to get an array of all the elements with this id.
+
+#### Waiting for view updates
+
+If you change the state of a variable in a SwiftUI view, for example by performing an action on a control or changing a value, SwiftUI might invalidate your view. However, SwiftUI does not re-evaluate invalidated views immediately. This is done for efficiency reasons. Therefore, you cannot make an assertion immediately after changing state.
+
+If you expect an update to happen after an action immediately after the current run loop cycle, you can use the `AxtTest.yield()` function.
+
+```swift
+let test = await AxtTest.host(TogglesView())
+let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
+
+moreToggle.performAction()
+await AxtTest.yield()
+
+XCTAssertNotNil(test.find(id: "toggle_2"))
+```
+
+If you expect that it might take longer for the view hierarchy to update, for example because the changes are animated, you can use the `waitFor` functions on Axt elements. These functions are efficient, because they only check for changes when the view hierarchy was changed.
+
+```swift
+let test = await AxtTest.host(TogglesView())
+let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
+
+moreToggle.performAction()
+
+XCTAssertNotNil(try await test.waitForElement(id: "toggle_2", timeout: 1))
+```
+
+There is also `waitForCondition` to wait for any boolean condition, and `waitForUpdate` that returns as soon as anything in the view hierarchy is changed.
 
