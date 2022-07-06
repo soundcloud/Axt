@@ -155,11 +155,20 @@ MyButton() { /* ... */ }
     .axt("my_button")
 ```
 
-An `axt` modifier that does not have an identifier is only exposed to tests if an identifier is provided somewhere hier up in the view hierarchy.
+There will only be a single element for this button exposed to the tests.
+
+```
+→ app
+  → my_button action
+```
+
+An `axt` modifier that does not have an identifier is only exposed to tests if an identifier is provided somewhere higher up in the view hierarchy.
 
 #### Native views
 
-Because we cannot change native SwiftUI view implementations and add preferences to them, we need a different way to expose their information. To enable Axt on native SwiftUI views, you need to give Axt a hint as to what kind of view it needs to look for:
+Because we cannot change native SwiftUI view implementations and add preferences to them, we need a different way to expose their information. To enable Axt on native SwiftUI views, you need to give Axt a hint as to what kind of view it needs to look for.
+
+##### Button
 
 ```swift
 Button("Tap me") { tap() }
@@ -170,6 +179,8 @@ Button("Tap me") { tap() }
 → tap_button label="Tap me" action
 ```
 
+##### Toggle
+
 ```swift
 Toggle("Toggle me", isOn: $isOn)
     .axt(.toggle, "is_on_toggle")
@@ -179,6 +190,8 @@ Toggle("Toggle me", isOn: $isOn)
 → is_on_toggle label="Toggle me" value=true action
 ```
 
+##### NavigationLink
+
 ```swift
 NavigationLink("More", destination: Destination())
     .axt(.navigationLink, "more_link")
@@ -187,6 +200,8 @@ NavigationLink("More", destination: Destination())
 ```
 → more_link label="More" action
 ```
+
+##### TextField
 
 ```swift
 TextField("Name", text: $name)
@@ -253,19 +268,21 @@ Button("...") { isPresented = true }
 
 ### Testing
 
+Views that are exposed to Axt can now be used in Axt tests.
+
 #### Axt tests
 
-If you want to use Axt in a test, make the test `async` and create the test with the following line.
+The first step to writing an Axt test is to create an asynchronous test method that contains something like the following line.
 
 ```swift
 let test = await AxtTest.host(MyView())
 ```
 
-This will display `MyView` in the simulator, with a red border around it, to indicite that it is presented by Axt. The `test` is also an Axt element. That means you can call all the functions on it introduced in Axt elements.
+The test can now be used. This will also display `MyView` in the simulator, with a red border around it, to indicite that it is presented by Axt. The `test` is also an Axt element. That means you can call all the functions on it introduced in Axt elements.
 
 #### Axt elements
 
-Axt elements point to a view that is exposed to Axt by the methods presented before, but it differs to a view in that it is a reference type. Even if a view is re-evaluated, an Axt element that points to that view will be the same. The Axt element will track changes in the view. That means you can store an Axt element, make changes to the SwiftUI state, and then check the Axt element again.
+An Axt element points to a view that is exposed to Axt by the methods presented before, but it differs to a view in that it is a reference type. Even if a view is re-evaluated, an Axt element that points to that view will be the same. The Axt element will track changes in the view. That means you can store an Axt element, make changes to the SwiftUI state, and then check the Axt element again.
 
 ```swift
 let test = await AxtTest.host(MyView())
