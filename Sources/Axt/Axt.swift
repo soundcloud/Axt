@@ -9,7 +9,7 @@ public struct Axt: Equatable {
     public let _uuid = UUID()
 
     /// User-defined identifier
-    public let id: String
+    public let id: String?
 
     /// Unique, does not change when Axt is re-evaluated
     public let nodeId: UUID
@@ -30,7 +30,22 @@ public struct AxtPreferenceKey: PreferenceKey {
 }
 
 public extension View {
-    func axt(_ identifier: String, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
+    func axt<M: Modifier>(_ modifier: NativeView<Self, M>, _ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View where M.Content == Self {
+        #if TESTABLE
+            AxtView(
+                identifier: identifier,
+                label: label,
+                value: value,
+                action: action,
+                setValue: setValue,
+                content: modifier.base.make(self)
+            )
+        #else
+            self
+        #endif
+    }
+
+    func axt(_ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
         #if TESTABLE
             AxtView(
                 identifier: identifier,
@@ -49,7 +64,7 @@ public extension View {
 #if TESTABLE
 
 struct AxtView<Content: View>: View {
-    let identifier: String
+    let identifier: String?
     let label: String?
     let value: Any?
     let action: (() -> Void)?
@@ -60,7 +75,11 @@ struct AxtView<Content: View>: View {
     var body: some View {
         content
             .transformPreference(AxtPreferenceKey.self) { value in
-                value = [Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: value)]
+                if value.count == 1, let placeholder = value.first, placeholder.id == nil {
+                    value = [Axt(id: identifier, nodeId: self.nodeId , label: self.label ?? placeholder.label, value: self.value ?? placeholder.value, action: self.action ?? placeholder.action, setValue: self.setValue ?? placeholder.setValue, children: placeholder.children)]
+                } else {
+                    value = [Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: value)]
+                }
             }
     }
 }

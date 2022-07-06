@@ -1,13 +1,13 @@
 import SwiftUI
 
-public extension NavigationLink {
-    func axt_navigation_link(_ identifier: String) -> some View {
-        #if TESTABLE
-        let makeContent: (State<Bool>) -> Self = { state in
+public struct NavigationLinkModifier<Content: View>: Modifier {
+    #if TESTABLE
+    public func make(_ content: Content) -> some View {
+        let makeContent: (State<Bool>) -> Content = { state in
             // This is modifying the navigation link directly and depends
             // on the fact that the isActive: State<Bool> parameter is the
             // first parameter in the NavigationLink structure.
-            var link = self
+            var link = content
             withUnsafeMutablePointer(to: &link) { pointer in
                 pointer.withMemoryRebound(to: State<Bool>.self, capacity: 1) { statePointer in
                     statePointer.pointee = state
@@ -15,11 +15,9 @@ public extension NavigationLink {
             }
             return link
         }
-        return AxtNavigationLink(identifier: identifier, isActive: dig(for: State<Bool>.self, in: self)!, content: makeContent)
-        #else
-        self
-        #endif
+        return AxtNavigationLink(isActive: dig(for: State<Bool>.self, in: content)!, content: makeContent)
     }
+    #endif
 }
 
 #if TESTABLE
@@ -30,12 +28,10 @@ private struct AxtNavigationLink<Content: View>: View {
     // and they need to be moved up the hierarchy.
     @State var isActive: Bool
     let content: (State<Bool>) -> Content
-    let identifier: String
 
-    init(identifier: String, isActive: State<Bool>, content: @escaping ((State<Bool>) -> Content)) {
+    init(isActive: State<Bool>, content: @escaping ((State<Bool>) -> Content)) {
         _isActive = isActive
         self.content = content
-        self.identifier = identifier
     }
 
     var body: some View {
@@ -44,10 +40,14 @@ private struct AxtNavigationLink<Content: View>: View {
         // swiftformat:disable:next redundantLet
         let _ = isActive
         content(_isActive)
-            .axt(identifier) {
+            .axt {
                 isActive.toggle()
             }
     }
 }
 
 #endif
+
+public extension NativeView {
+    static var navigationLink: NativeView<Content, NavigationLinkModifier<Content>> { .init(base: .init()) }
+}

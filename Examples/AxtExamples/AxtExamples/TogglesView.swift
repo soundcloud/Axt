@@ -14,7 +14,7 @@ struct TogglesView: View {
         List {
             Toggle("1", isOn: $value1)
             Toggle("Show more", isOn: $showMore)
-                .axt_toggle("show_more")
+                .axt(.toggle, "show_more")
             if showMore {
                 Group {
                     Toggle("2", isOn: $value2)

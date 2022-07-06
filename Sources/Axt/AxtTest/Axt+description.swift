@@ -18,7 +18,7 @@ extension Axt {
     }
 
     private func describeNode() -> String {
-        var description = id
+        var description = id ?? ""
         if let label = self.label {
             description.append(" label=\"" + label + "\"")
         }

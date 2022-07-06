@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E45AE70287577060042F247 /* NativeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E45AE6F287577060042F247 /* NativeViews.swift */; };
+		2E45AE72287577BF0042F247 /* NativeViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E45AE71287577BF0042F247 /* NativeViewsTests.swift */; };
 		2E8DFD092874755F0030D715 /* AxtExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DFD082874755F0030D715 /* AxtExamplesApp.swift */; };
 		2E8DFD0B2874755F0030D715 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DFD0A2874755F0030D715 /* ContentView.swift */; };
 		2E8DFD0D287475600030D715 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8DFD0C287475600030D715 /* Assets.xcassets */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E45AE6F287577060042F247 /* NativeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeViews.swift; sourceTree = "<group>"; };
+		2E45AE71287577BF0042F247 /* NativeViewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeViewsTests.swift; sourceTree = "<group>"; };
 		2E8DFD052874755F0030D715 /* AxtExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AxtExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8DFD082874755F0030D715 /* AxtExamplesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxtExamplesApp.swift; sourceTree = "<group>"; };
 		2E8DFD0A2874755F0030D715 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 				2E8DFD082874755F0030D715 /* AxtExamplesApp.swift */,
 				2E8DFD0A2874755F0030D715 /* ContentView.swift */,
 				2E8DFD322874758B0030D715 /* TogglesView.swift */,
+				2E45AE6F287577060042F247 /* NativeViews.swift */,
 				2E8DFD0C287475600030D715 /* Assets.xcassets */,
 				2E8DFD0E287475600030D715 /* Preview Content */,
 			);
@@ -103,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				2E8DFD19287475600030D715 /* TogglesViewTests.swift */,
+				2E45AE71287577BF0042F247 /* NativeViewsTests.swift */,
 			);
 			path = AxtExamplesTests;
 			sourceTree = "<group>";
@@ -223,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8DFD0B2874755F0030D715 /* ContentView.swift in Sources */,
+				2E45AE70287577060042F247 /* NativeViews.swift in Sources */,
 				2E8DFD332874758B0030D715 /* TogglesView.swift in Sources */,
 				2E8DFD092874755F0030D715 /* AxtExamplesApp.swift in Sources */,
 			);
@@ -233,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8DFD1A287475600030D715 /* TogglesViewTests.swift in Sources */,
+				2E45AE72287577BF0042F247 /* NativeViewsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
