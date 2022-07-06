@@ -1,12 +1,10 @@
 # 🪓 Axt 
 
-Axt is SwiftUI view testing library. It makes use of preferences to enable testing views.
-
-<img src="rec.gif">
+Axt is SwiftUI view testing library. It makes use of preferences to enable testing views in-vitro. That means views behave the same as in apps and are fully functional, all SwiftUI property wrappers are in a usable state and views can be interacted with.
 
 ## Examples
 
-Take a simple views that displays a number of toggles:
+Take a simple views that displays a number of toggles. Notice the use of the `axt` modifier.
 
 ```swift
 List {
@@ -23,7 +21,7 @@ List {
 
 ### Watching the hierarchy
 
-We can watch view updates in the console:
+As a first step, we can watch view updates in the console.
 
 ```swift
 func testWatch() async {
@@ -32,18 +30,30 @@ func testWatch() async {
 }
 ```
 
+Running this test should open the simulator, and print the view hierarchy in the console.
+
+```
+→ app
+  → toggle_1 label="1" value=false action
+  → show_more label="Show more" value=false action
+```
+
+If you interact with the view in the simulator, a new view hierarchy will be printed in the console any time it changes.
+
 ### Check for a value
 
 We can check the value of a toggle:
 
 ```swift
-let test = await AxtTest.host(TogglesView())
-let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
+func testValue() async {
+    let test = await AxtTest.host(TogglesView())
+    let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
 
-moreToggle.performAction()
-await AxtTest.yield()
+    moreToggle.performAction()
+    await AxtTest.yield()
 
-XCTAssertNotNil(test.find(id: "more_content"))
+    XCTAssertNotNil(test.find(id: "more_content"))
+}
 ```
 
 ### Perform an action 
@@ -51,7 +61,6 @@ XCTAssertNotNil(test.find(id: "more_content"))
 We can programmatically tap the toggle in the test:
 
 ```swift
-let test = await AxtTest.host(TogglesView())
 let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
 moreToggle.performAction()
 ```
@@ -76,7 +85,38 @@ Check out more examples in the AxtExamples project in the Examples folder.
 
 ## Documentation
 
+Axt never tries to read down the view hierarchy, it always reads up. In order to use views in a test, you need to expose them by giving them an Axt identifier and possibly add more information.
+
 ### Exposing views
+
+To enable testing views, we first need to expose them using the `axt` modifier. There are different ways to expose views, depending on whether they are built-in or custom views. You can also add attach Axt elements without explicit child views to a view.
+
+#### Simple views and container views
+
+You can expose any view or stack by specifying an identifier.
+
+```swift
+HStack {
+    Color.blue.frame(width: 50, height: 50)
+        .axt("blue")
+    Color.red.frame(width: 50, height: 50)
+        .axt("red")
+}
+.axt("colors")
+```
+
+#### Views with values or functionality
+
+You can also specify values or functionality manually to expose them to views.
+
+```swift
+Color.blue.frame(width: 50, height: 50)
+    .axt("color_1", value: UIColor.blue)
+Color.red.frame(width: 50, height: 50)
+    .axt("color_2", value: UIColor.red)
+```
+
+You can also add closures to perform from tests or ways to set values. This information is transferred up the view hierarchy using preferences. This can then be used from the test to interact with the view hierarchy.
 
 #### Native views
 
@@ -103,5 +143,38 @@ Button("Tap me") { tap() }
     .buttonStyle(MyButtonStyle())
     .tint(.red)
     .axt(.button, "tap_button")
+```
+
+#### Custom views
+
+If you use custom controls instead of native SwiftUI controls, you should not use the modifiers like above. Those modifiers try to extract data from the views. For custom controls, that is not necessary, because we can include preferences internally. To specify values or functionality for custom views, but allow clients to set the Axt identifier or override values or functionality, use the `axt` modifier without an identifier.
+
+```swift
+struct MyButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button("Tap me!") { action() }
+            .axt(action: action)
+    }
+}
+
+MyButton() { /* ... */ }
+    .axt("my_button")
+```
+
+#### Inserting extra elements
+
+Sometimes it can be useful to insert Axt elements to a views that do not correspond to a view itself. This can be useful to expose buttons that are handled in UIKit instead, interact with gestures or other objects that are not views, or provide an easy way to interact with view state when testing a view modifier.
+
+```swift
+content.alert(isPresented: $isPresented) {
+    Alert(
+        title: Text(message),
+        primaryButton: .default(Text("1"), action: action1),
+        secondaryButton: .default(Text("2"), action: action2))
+}
+.axt(insert: "button_1", when: isPresented, label: "1", action: action1)
+.axt(insert: "button_2", when: isPresented, label: "2", action: action2)
 ```
 
