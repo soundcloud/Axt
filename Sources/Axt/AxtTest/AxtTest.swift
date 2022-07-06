@@ -19,6 +19,7 @@ public final class AxtTest {
         hostingController = UIHostingController(rootView: host)
     }
 
+    @MainActor
     public static func host<V: View>(_ view: V) async -> AxtTest {
         let axTest = AxtTest(view)
         axTest.makeWindow()
