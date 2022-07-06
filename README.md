@@ -42,17 +42,13 @@ If you interact with the view, a new view hierarchy will be printed in the conso
 
 ### Check for a value
 
-We can also check the value of a toggles in a test.
+We can also check the value of one of the toggles.
 
 ```swift
 func testValue() async {
     let test = await AxtTest.host(TogglesView())
     let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
-
-    moreToggle.performAction()
-    await AxtTest.yield()
-
-    XCTAssertNotNil(test.find(id: "more_content"))
+    XCTAssertEqual(moreToggle.value as? Bool, false)
 }
 ```
 
@@ -67,7 +63,7 @@ moreToggle.performAction()
 
 ### Wait for a condition
 
-We can wait for a toggle to appear.
+We can wait for a condition, such as for a toggle to appear.
 
 ```swift
 try await test.waitForCondition(timeout: 1) {
@@ -75,7 +71,7 @@ try await test.waitForCondition(timeout: 1) {
 }
 ```
 
-Check out more examples below, or in the AxtExamples project in the Examples folder.
+Check out more examples below, and in the AxtExamples project in the Examples folder.
 
 ## Documentation
 
@@ -242,6 +238,14 @@ content.alert(isPresented: $isPresented) {
 .axt(insert: "button_2", when: isPresented, label: "2", action: action2)
 ```
 
+The elements will be exposed as siblings.
+
+```
+→ app
+  → button_1 label="1" action
+  → button_2 label="2" action
+```
+
 And here we expose a drag gesture to be testable.
 
 ```swift
@@ -254,6 +258,11 @@ var body: some View {
         .gesture(gesture)
         .axt(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
 }
+```
+
+```
+→ app
+  → drag value=0.0
 ```
 
 #### Sheets
