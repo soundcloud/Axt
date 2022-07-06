@@ -21,6 +21,8 @@
 		2EB4C36D287593220026D3C0 /* CustomControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */; };
 		2EB4C36F287593FD0026D3C0 /* ConfirmationAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */; };
 		2EB4C3712875959D0026D3C0 /* ConfirmationAlertModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */; };
+		2EB4C3732875A2830026D3C0 /* GestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C3722875A2830026D3C0 /* GestureView.swift */; };
+		2EB4C3752875A4D40026D3C0 /* GestureViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C3742875A4D40026D3C0 /* GestureViewTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlsTests.swift; sourceTree = "<group>"; };
 		2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertModifier.swift; sourceTree = "<group>"; };
 		2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertModifierTests.swift; sourceTree = "<group>"; };
+		2EB4C3722875A2830026D3C0 /* GestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureView.swift; sourceTree = "<group>"; };
+		2EB4C3742875A4D40026D3C0 /* GestureViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureViewTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +104,7 @@
 				2E45AE6F287577060042F247 /* NativeViews.swift */,
 				2EB4C36A28758F520026D3C0 /* CustomControls.swift */,
 				2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */,
+				2EB4C3722875A2830026D3C0 /* GestureView.swift */,
 				2E8DFD0C287475600030D715 /* Assets.xcassets */,
 				2E8DFD0E287475600030D715 /* Preview Content */,
 			);
@@ -121,6 +126,7 @@
 				2E45AE71287577BF0042F247 /* NativeViewsTests.swift */,
 				2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */,
 				2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */,
+				2EB4C3742875A4D40026D3C0 /* GestureViewTests.swift */,
 			);
 			path = AxtExamplesTests;
 			sourceTree = "<group>";
@@ -243,6 +249,7 @@
 				2E8DFD0B2874755F0030D715 /* ContentView.swift in Sources */,
 				2EB4C36F287593FD0026D3C0 /* ConfirmationAlertModifier.swift in Sources */,
 				2E45AE70287577060042F247 /* NativeViews.swift in Sources */,
+				2EB4C3732875A2830026D3C0 /* GestureView.swift in Sources */,
 				2EB4C36B28758F520026D3C0 /* CustomControls.swift in Sources */,
 				2E8DFD332874758B0030D715 /* TogglesView.swift in Sources */,
 				2E8DFD092874755F0030D715 /* AxtExamplesApp.swift in Sources */,
@@ -256,6 +263,7 @@
 				2E8DFD1A287475600030D715 /* TogglesViewTests.swift in Sources */,
 				2EB4C36D287593220026D3C0 /* CustomControlsTests.swift in Sources */,
 				2EB4C3712875959D0026D3C0 /* ConfirmationAlertModifierTests.swift in Sources */,
+				2EB4C3752875A4D40026D3C0 /* GestureViewTests.swift in Sources */,
 				2E45AE72287577BF0042F247 /* NativeViewsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
