@@ -17,6 +17,10 @@
 		2E8DFD332874758B0030D715 /* TogglesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DFD322874758B0030D715 /* TogglesView.swift */; };
 		2E8DFD39287476A90030D715 /* Axt in Frameworks */ = {isa = PBXBuildFile; productRef = 2E8DFD38287476A90030D715 /* Axt */; };
 		2E8DFD3D287476BA0030D715 /* Axt in Frameworks */ = {isa = PBXBuildFile; productRef = 2E8DFD3C287476BA0030D715 /* Axt */; };
+		2EB4C36B28758F520026D3C0 /* CustomControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C36A28758F520026D3C0 /* CustomControls.swift */; };
+		2EB4C36D287593220026D3C0 /* CustomControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */; };
+		2EB4C36F287593FD0026D3C0 /* ConfirmationAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */; };
+		2EB4C3712875959D0026D3C0 /* ConfirmationAlertModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,10 @@
 		2E8DFD19287475600030D715 /* TogglesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogglesViewTests.swift; sourceTree = "<group>"; };
 		2E8DFD322874758B0030D715 /* TogglesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogglesView.swift; sourceTree = "<group>"; };
 		2E8DFD34287476260030D715 /* Axt */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Axt; path = ../..; sourceTree = "<group>"; };
+		2EB4C36A28758F520026D3C0 /* CustomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControls.swift; sourceTree = "<group>"; };
+		2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlsTests.swift; sourceTree = "<group>"; };
+		2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertModifier.swift; sourceTree = "<group>"; };
+		2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertModifierTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +98,8 @@
 				2E8DFD0A2874755F0030D715 /* ContentView.swift */,
 				2E8DFD322874758B0030D715 /* TogglesView.swift */,
 				2E45AE6F287577060042F247 /* NativeViews.swift */,
+				2EB4C36A28758F520026D3C0 /* CustomControls.swift */,
+				2EB4C36E287593FD0026D3C0 /* ConfirmationAlertModifier.swift */,
 				2E8DFD0C287475600030D715 /* Assets.xcassets */,
 				2E8DFD0E287475600030D715 /* Preview Content */,
 			);
@@ -109,6 +119,8 @@
 			children = (
 				2E8DFD19287475600030D715 /* TogglesViewTests.swift */,
 				2E45AE71287577BF0042F247 /* NativeViewsTests.swift */,
+				2EB4C36C287593220026D3C0 /* CustomControlsTests.swift */,
+				2EB4C3702875959D0026D3C0 /* ConfirmationAlertModifierTests.swift */,
 			);
 			path = AxtExamplesTests;
 			sourceTree = "<group>";
@@ -229,7 +241,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8DFD0B2874755F0030D715 /* ContentView.swift in Sources */,
+				2EB4C36F287593FD0026D3C0 /* ConfirmationAlertModifier.swift in Sources */,
 				2E45AE70287577060042F247 /* NativeViews.swift in Sources */,
+				2EB4C36B28758F520026D3C0 /* CustomControls.swift in Sources */,
 				2E8DFD332874758B0030D715 /* TogglesView.swift in Sources */,
 				2E8DFD092874755F0030D715 /* AxtExamplesApp.swift in Sources */,
 			);
@@ -240,6 +254,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8DFD1A287475600030D715 /* TogglesViewTests.swift in Sources */,
+				2EB4C36D287593220026D3C0 /* CustomControlsTests.swift in Sources */,
+				2EB4C3712875959D0026D3C0 /* ConfirmationAlertModifierTests.swift in Sources */,
 				2E45AE72287577BF0042F247 /* NativeViewsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

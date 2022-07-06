@@ -59,6 +59,22 @@ public extension View {
             self
         #endif
     }
+
+    func axt(insert identifier: String, when condition: Bool = true, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
+        #if TESTABLE
+            AxtInsertView(
+                identifier: identifier,
+                condition: condition,
+                label: label,
+                value: value,
+                action: action,
+                setValue: setValue,
+                content: self
+            )
+        #else
+            self
+        #endif
+    }
 }
 
 #if TESTABLE
@@ -80,6 +96,25 @@ struct AxtView<Content: View>: View {
                 } else {
                     value = [Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: value)]
                 }
+            }
+    }
+}
+
+struct AxtInsertView<Content: View>: View {
+    let identifier: String
+    let condition: Bool
+    let label: String?
+    let value: Any?
+    let action: (() -> Void)?
+    let setValue: ((Any?) -> Void)?
+    let content: Content
+    @State private var nodeId = UUID()
+
+    var body: some View {
+        content
+            .transformPreference(AxtPreferenceKey.self) { value in
+                guard condition else { return }
+                value.append(Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: []))
             }
     }
 }
