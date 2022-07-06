@@ -7,7 +7,6 @@ class TogglesViewTests: XCTestCase {
 
     func testWatch() async {
         let test = await AxtTest.host(TogglesView())
-
         await test.watchHierarchy()
     }
 
@@ -17,6 +16,10 @@ class TogglesViewTests: XCTestCase {
 
         moreToggle.performAction()
         await AxtTest.yield()
+
+        try await test.waitForCondition(timeout: 1) {
+            test.find(id: "toggle_2") != nil
+        }
 
         XCTAssertNotNil(test.find(id: "more_content"))
     }
