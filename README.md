@@ -167,6 +167,8 @@ MyButton() { /* ... */ }
 
 Sometimes it can be useful to insert Axt elements to a views that do not correspond to a view itself. This can be useful to expose buttons that are handled in UIKit instead, interact with gestures or other objects that are not views, or provide an easy way to interact with view state when testing a view modifier.
 
+For example, here is how we can expose the contents of an alert:
+
 ```swift
 content.alert(isPresented: $isPresented) {
     Alert(
@@ -176,5 +178,31 @@ content.alert(isPresented: $isPresented) {
 }
 .axt(insert: "button_1", when: isPresented, label: "1", action: action1)
 .axt(insert: "button_2", when: isPresented, label: "2", action: action2)
+```
+
+And here we expose a drag gesture to be testable.
+
+```swift
+@State private var dragY: CGFloat = 0
+
+var body: some View {
+    knob
+        .frame(width: 50, height: 50)
+        .offset(x: 0, y: dragY)
+        .gesture(gesture)
+        .axt(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
+}
+```
+
+#### Sheets
+
+Preferences that are set on the contents of a SwiftUI sheet are never transferred to the view presenting the sheet. You can still expose contens of a sheet, but this should be a last resort. Use the following code to add a new `AxtTest` to the `AxtTest.sheets` variable.
+
+```swift
+Button("...") { isPresented = true }
+    .sheet(isPresented: $isPresented) {
+        MoreMenu()
+            .hostAxSheet()
+    }
 ```
 
