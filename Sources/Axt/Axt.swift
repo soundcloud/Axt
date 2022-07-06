@@ -30,8 +30,9 @@ public struct AxtPreferenceKey: PreferenceKey {
 }
 
 public extension View {
-    func axt<M: Modifier>(_ modifier: NativeView<Self, M>, _ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View where M.Content == Self {
+    @ViewBuilder func axt<M: Modifier>(_ modifier: NativeView<Self, M>, _ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View where M.Content == Self {
         #if TESTABLE
+        if AxtTest.enabled {
             AxtView(
                 identifier: identifier,
                 label: label,
@@ -40,13 +41,15 @@ public extension View {
                 setValue: setValue,
                 content: modifier.base.make(self)
             )
+        } else { self }
         #else
-            self
+        self
         #endif
     }
 
-    func axt(_ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
+    @ViewBuilder func axt(_ identifier: String? = nil, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
         #if TESTABLE
+        if AxtTest.enabled {
             AxtView(
                 identifier: identifier,
                 label: label,
@@ -55,13 +58,15 @@ public extension View {
                 setValue: setValue,
                 content: self
             )
+        } else { self }
         #else
-            self
+        self
         #endif
     }
 
-    func axt(insert identifier: String, when condition: Bool = true, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
+    @ViewBuilder func axt(insert identifier: String, when condition: Bool = true, label: String? = nil, value: Any? = nil, action: (() -> Void)? = nil, setValue: ((Any?) -> Void)? = nil) -> some View {
         #if TESTABLE
+        if AxtTest.enabled {
             AxtInsertView(
                 identifier: identifier,
                 condition: condition,
@@ -71,8 +76,9 @@ public extension View {
                 setValue: setValue,
                 content: self
             )
+        } else { self }
         #else
-            self
+        self
         #endif
     }
 }

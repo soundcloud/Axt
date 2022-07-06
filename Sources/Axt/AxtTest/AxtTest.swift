@@ -8,7 +8,9 @@ public final class AxtTest {
 
     private var window: UIWindow!
     public private(set) var hostingController: UIViewController!
+
     public internal(set) static var sheets: [UUID: AxtTest] = [:]
+    public internal(set) static var enabled = false
 
     private let axtSubject = CurrentValueSubject<Axt?, Never>(nil)
 
@@ -25,6 +27,7 @@ public final class AxtTest {
     }
 
     public func makeWindow() {
+        Self.enabled = true
         let windowScenes = UIApplication.shared.connectedScenes
         guard let scene = windowScenes.first as? UIWindowScene else {
             fatalError("Could not connect to window scene, make sure the test is running from a host application.")
