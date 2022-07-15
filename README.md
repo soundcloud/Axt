@@ -303,7 +303,7 @@ let toggle = try XCTUnwrap(test.find(id: "my_toggle"))
 XCTAssertEqual(label.value as? String, "yes")
 
 toggle.performAction()
-await AXTest.yield()
+await AxtTest.yield()
 
 XCTAssertEqual(label.value as? String, "no")
 ```
