@@ -9,7 +9,7 @@ struct LessMenu: View {
             .axt("more_button", .button)
             .sheet(isPresented: $isPresented) {
                 MoreMenu()
-                    .hostAxSheet()
+                    .hostAxtSheet()
             }
     }
 }

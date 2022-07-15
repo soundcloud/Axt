@@ -273,7 +273,7 @@ Preferences that are set on the contents of a SwiftUI sheet are never transferre
 Button("...") { isPresented = true }
     .sheet(isPresented: $isPresented) {
         MoreMenu()
-            .hostAxSheet()
+            .hostAxtSheet()
     }
 ```
 
