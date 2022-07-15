@@ -118,17 +118,17 @@ You can also specify values or functionality manually to expose them to views.
 
 ```swift
 Color.blue.frame(width: 50, height: 50)
-    .axt("color_1", value: UIColor.blue)
+    .axt("color_1", value: "blue")
 Color.red.frame(width: 50, height: 50)
-    .axt("color_2", value: UIColor.red)
+    .axt("color_2", value: "red")
 ```
 
 These can now be accessed from tests.
 
 ```
 → app
-  → blue value=UIColor.blue
-  → red value=UIColor.red
+  → color_1 value=blue
+  → color_2 value=red
 ```
 
 You can also add closures to perform from tests or ways to set values.
