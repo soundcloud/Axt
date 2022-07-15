@@ -8,13 +8,13 @@ struct NativeViews: View {
         List {
             let counterDescription = "Counter: \(counter)"
             Text(counterDescription)
-                .axt(.text, "counter_label")
+                .axt("counter_label", .text)
             Button("Tap", action: { counter += 1 })
-                .axt(.button, "tap_button")
+                .axt("tap_button", .button)
             NavigationLink("More", destination: Text("More..."))
-                .axt(.navigationLink, "more_link")
+                .axt("more_link", .navigationLink)
             TextField("Name", text: $name)
-                .axt(.textField, "name_field")
+                .axt("name_field", .textField)
         }
 
     }

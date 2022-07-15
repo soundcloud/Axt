@@ -9,12 +9,12 @@ Take a simple view that displays a number of toggles. Notice the `toggle_1`, `sh
 ```swift
 List {
     Toggle("1", isOn: $value1)
-        .axt(.toggle, "toggle_1")
+        .axt("toggle_1", .toggle)
     Toggle("Show more", isOn: $showMore)
-        .axt(.toggle, "show_more")
+        .axt("show_more", .toggle)
     if showMore {
         Toggle("2", isOn: $value2)
-            .axt(.toggle, "toggle_2")
+            .axt("toggle_2", .toggle)
     }
 }
 ```
@@ -170,7 +170,7 @@ The following built-in views are supported.
 
 ```swift
 Button("Tap me") { tap() }
-    .axt(.button, "tap_button")
+    .axt("tap_button", .button)
 ```
 
 ```
@@ -181,7 +181,7 @@ Button("Tap me") { tap() }
 
 ```swift
 Toggle("Toggle me", isOn: $isOn)
-    .axt(.toggle, "is_on_toggle")
+    .axt("is_on_toggle", .toggle)
 ```
 
 ```
@@ -192,7 +192,7 @@ Toggle("Toggle me", isOn: $isOn)
 
 ```swift
 NavigationLink("More", destination: Destination())
-    .axt(.navigationLink, "more_link")
+    .axt("more_link", .navigationLink)
 ```
 
 ```
@@ -203,7 +203,7 @@ NavigationLink("More", destination: Destination())
 
 ```swift
 TextField("Name", text: $name)
-    .axt(.textField, "name_field")
+    .axt("name_field", .textField)
 ```
 
 ```
@@ -216,7 +216,7 @@ You can place the `axt` modifier below other modifiers as well:
 Button("Tap me") { tap() }
     .buttonStyle(MyButtonStyle())
     .tint(.red)
-    .axt(.button, "tap_button")
+    .axt("tap_button", .button)
 ```
 
 These modifiers try to extract data from the views, and are the only exception to the principle that Axt never tries to read down the view hierarchy. If you use your own controls instead of native SwiftUI controls, you should not use these modifiers, but instead add use the `axt` modifiers specified before.

@@ -13,16 +13,16 @@ struct TogglesView: View {
     var body: some View {
         List {
             Toggle("1", isOn: $value1)
-                .axt(.toggle, "toggle_1")
+                .axt("toggle_1", .toggle)
             Toggle("Show more", isOn: $showMore)
-                .axt(.toggle, "show_more")
+                .axt("show_more", .toggle)
             if showMore {
                 Toggle("2", isOn: $value2)
-                    .axt(.toggle, "toggle_2")
+                    .axt("toggle_2", .toggle)
                 Toggle("3", isOn: $value3)
-                    .axt(.toggle, "toggle_3")
+                    .axt("toggle_3", .toggle)
                 Toggle("4", isOn: $value4)
-                    .axt(.toggle, "toggle_4")
+                    .axt("toggle_4", .toggle)
             }
         }
     }
