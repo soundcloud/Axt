@@ -27,7 +27,7 @@ public final class AxtTest {
         return axTest
     }
 
-    public func makeWindow() {
+    public func makeWindow(size: CGSize? = nil) {
         Self.enabled = true
         let windowScenes = UIApplication.shared.connectedScenes
         guard let scene = windowScenes.first as? UIWindowScene else {
@@ -35,6 +35,12 @@ public final class AxtTest {
         }
         window = UIWindow(windowScene: scene)
         window.rootViewController = hostingController
+        window.layer.borderColor = UIColor.red.cgColor
+        window.layer.borderWidth = 5.0
+        if let size = size {
+            window.frame = CGRect(origin: .zero, size: size)
+            window.layer.borderWidth = 2.0
+        }
         window.makeKeyAndVisible()
     }
 
@@ -67,8 +73,6 @@ private struct HostView<Content: View>: View {
 
     var body: some View {
         content
-            .border(.red, width: 2)
-            .padding()
             .axt("app")
             .backgroundPreferenceValue(AxtPreferenceKey.self) {
                 // This is used instead of `onPreferenceChange` because that
