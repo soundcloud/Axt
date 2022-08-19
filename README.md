@@ -1,40 +1,45 @@
 # 🪓 Axt 
 
+![](https://user-images.githubusercontent.com/13484323/185608030-21c45ddc-f90b-42e9-a8ac-e855bb090aea.svg)
+![platform-iOS 15-green](https://user-images.githubusercontent.com/13484323/185608132-f90bd70e-4518-404d-9ba7-c24739f7c2b2.svg)
+
 Axt is a SwiftUI view testing library.
 
-With Axt, you can write unit tests that interact with SwiftUI views. The views are in a fully functional state. For example, you can ...
-
-**👆 ... tap a SwiftUI Button**
+With Axt, you can write unit tests that interact with SwiftUI views. The views are in a fully functional state.
 
 ```swift
-let refreshButton = test.find(id: "refresh")
-refreshButton?.performAction()
+struct SettingsView: View {
+    @State var showMore = false
+    
+    var body: some View {
+        VStack {
+            Toggle("Show more", isOn: $showMore)
+                .axt("show_more_toggle", .toggle)
+            if showMore {
+                Text("More")
+                    .axt("more_text", .text)
+            }
+        }
+    }
+}           
 ```
 
-**🔎 ... read the value of a SwiftUI Toggle**
-
 ```swift
-let moreToggle = test.find(id: "show_more")
-XCTAssertEqual(moreToggle?.value as? Bool, false)
-```
+@MainActor
+class SettingsViewTests: XCTestCase {
+    func testShowMore() async throws {
+        let test = await AxtTest.host(SettingsView())
+        let showMoreToggle = try XCTUnwrap(test.find(id: "show_more_toggle"))
 
-**✨ ... monitor all changes in a SwiftUI view**
+        showMoreToggle.performAction()
+        await AxtTest.yield()
 
-```swift
-let contentView = test.find(id: "content")
-await contentView.watchHierarchy()
-```
-
-**⌛️ ... wait for a label to have a specific value**
-
-```swift
-let statusLabel = test.find(id: "status_label")
-try await test.waitForCondition(timeout: 1) {
-    statusLabel?.value as? String == "Success"
+        let moreText = try XCTUnwrap(test.find(id: "more_text"))
+        XCTAssertEqual(showMoreToggle.value as? Bool, true)
+        XCTAssertEqual(moreText.label, "More")
+    }
 }
 ```
-
-Axt is compatible with iOS 14 and iOS 15.
 
 ## Getting started
 
