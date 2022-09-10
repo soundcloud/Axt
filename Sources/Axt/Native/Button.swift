@@ -14,7 +14,7 @@ public struct ButtonModifier<Content: View>: Modifier {
         } else if let tapAction = dig(for: ((Void_) -> Void).self, in: content) {
             action = { tapAction(()) }
         }
-        return content.axt(label: label, value: nil, action: action)
+        return content.testData(label: label, value: nil, action: action)
     }
     #endif
 }

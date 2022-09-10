@@ -5,21 +5,21 @@ struct GestureView: View {
 
     var body: some View {
         knob
-            .axt("knob")
+            .testId("knob")
             .frame(width: 50, height: 50)
             .offset(x: 0, y: dragY)
             .gesture(gesture)
-            .axt(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
+            .testId(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
     }
 
     @ViewBuilder private var knob: some View {
         if abs(dragY) > 300 {
             Circle()
-                .axt(value: "circle")
+                .testData(value: "circle")
         }
         else {
             Rectangle()
-                .axt(value: "rectangle")
+                .testData(value: "rectangle")
         }
     }
 

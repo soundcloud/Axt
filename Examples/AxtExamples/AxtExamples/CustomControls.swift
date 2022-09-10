@@ -5,8 +5,8 @@ struct CustomControls: View {
 
     var body: some View {
         MyButton() { counter += 1 }
-            .axt("my_button")
-            .axt(insert: "counter", value: counter)
+            .testId("my_button")
+            .testId(insert: "counter", value: counter)
     }
 
 }
@@ -16,6 +16,6 @@ struct MyButton: View {
 
     var body: some View {
         Button("Tap me") { action() }
-            .axt(action: action)
+            .testData(action: action)
     }
 }

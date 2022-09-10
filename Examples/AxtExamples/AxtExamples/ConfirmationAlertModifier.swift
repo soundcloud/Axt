@@ -14,7 +14,7 @@ struct ConfirmationAlertModifier: ViewModifier {
                 primaryButton: .default(Text("1"), action: action1),
                 secondaryButton: .default(Text("2"), action: action2))
         }
-        .axt(insert: "button_1", when: isPresented, label: "1", action: action1)
-        .axt(insert: "button_2", when: isPresented, label: "2", action: action2)
+        .testId(insert: "button_1", when: isPresented, label: "1", action: action1)
+        .testId(insert: "button_2", when: isPresented, label: "2", action: action2)
     }
 }

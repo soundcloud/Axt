@@ -6,7 +6,7 @@ struct LessMenu: View {
 
     var body: some View {
         Button("...") { isPresented = true }
-            .axt("more_button", .button)
+            .testId("more_button", type: .button)
             .sheet(isPresented: $isPresented) {
                 MoreMenu()
                     .hostAxtSheet()
@@ -17,6 +17,6 @@ struct LessMenu: View {
 struct MoreMenu: View {
     var body: some View {
         Text("What's more?")
-            .axt("more_text", .text)
+            .testId("more_text", type: .text)
     }
 }

@@ -7,7 +7,7 @@ public struct TextModifier<Content: View>: Modifier {
         if let text = dig(for: Text.self, in: content) {
             label = dig(for: String.self, in: text)
         }
-        return content.axt(label: label)
+        return content.testData(label: label)
     }
     #endif
 }

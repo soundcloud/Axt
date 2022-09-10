@@ -3,9 +3,7 @@
 ![](https://user-images.githubusercontent.com/13484323/185608030-21c45ddc-f90b-42e9-a8ac-e855bb090aea.svg)
 ![platform-iOS 15-green](https://user-images.githubusercontent.com/13484323/185608132-f90bd70e-4518-404d-9ba7-c24739f7c2b2.svg)
 
-Axt is a SwiftUI view testing library.
-
-With Axt, you can write unit tests that interact with SwiftUI views. The views are in a fully functional state.
+With Axt you can write unit tests that interact with SwiftUI views. The views are in a fully functional state.
 
 ```swift
 struct SettingsView: View {
@@ -14,10 +12,10 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             Toggle("Show more", isOn: $showMore)
-                .axt("show_more_toggle", .toggle)
+                .testId("show_more_toggle", type: .toggle)
             if showMore {
                 Text("More")
-                    .axt("more_text", .text)
+                    .testId("more_text", type: .text)
             }
         }
     }
@@ -53,22 +51,22 @@ Follow the steps below to add Axt to an existing project. Note that Axt should b
 
 ### Exposing views
 
-To expose a view, you give it an identifier with the `axt` modifier.
+To expose a view, you give it an identifier with the `testId` modifier.
 
 Take this list of toggles, and notice the `toggle_1`, `show_more` and `toggle_2` identifiers.
 
 ```swift
 List {
     Toggle("1", isOn: $value1)
-        .axt("toggle_1", .toggle)
+        .testId("toggle_1", type: .toggle)
     Toggle("Show more", isOn: $showMore)
-        .axt("show_more", .toggle)
+        .testId("show_more", type: .toggle)
     if showMore {
         Toggle("2", isOn: $value2)
-            .axt("toggle_2", .toggle)
+            .testId("toggle_2", type: .toggle)
     }
 }
-.axt("toggle_list")
+.testId("toggle_list")
 ```
 
 This will be exposed to the tests as below.
@@ -80,7 +78,7 @@ This will be exposed to the tests as below.
     → show_more label="Show more" value=false action
 ```
 
-There are different ways to use the `axt` modifier, depending on whether you want to expose built-in or custom views. You can also attach Axt elements without explicit child views to a view.
+There are different ways to expose views to unit tests, depending on whether they are built-in or custom views. You can also attach Axt elements without explicit child views to a view.
 
 #### Native views
 
@@ -90,7 +88,7 @@ To enable Axt on native SwiftUI views, you need to tell Axt what kind of view it
 
 ```swift
 Button("Tap me") { tap() }
-    .axt("tap_button", .button)
+    .testId("tap_button", type: .button)
 ```
 
 ```
@@ -101,7 +99,7 @@ Button("Tap me") { tap() }
 
 ```swift
 Toggle("Toggle me", isOn: $isOn)
-    .axt("is_on_toggle", .toggle)
+    .testId("is_on_toggle", type: .toggle)
 ```
 
 ```
@@ -112,7 +110,7 @@ Toggle("Toggle me", isOn: $isOn)
 
 ```swift
 NavigationLink("More", destination: Destination())
-    .axt("more_link", .navigationLink)
+    .testId("more_link", type: .navigationLink)
 ```
 
 ```
@@ -123,7 +121,7 @@ NavigationLink("More", destination: Destination())
 
 ```swift
 TextField("Name", text: $name)
-    .axt("name_field", .textField)
+    .testId("name_field", type: .textField)
 ```
 
 ```
@@ -136,9 +134,9 @@ For custom views, you can specify values or functionality manually to expose the
 
 ```swift
 Color.blue.frame(width: 50, height: 50)
-    .axt("color_1", value: "blue")
+    .testId("color_1", value: "blue")
 Color.red.frame(width: 50, height: 50)
-    .axt("color_2", value: "red")
+    .testId("color_2", value: "red")
 ```
 
 These can now be accessed from tests.
@@ -153,7 +151,7 @@ You can also add closures to perform from tests (using the `action` parameter) o
 
 #### Re-usable controls
 
-It is common to want to specify values or functionality for re-usable controls, but allow clients to set the Axt identifier or override values or functionality. This would be the case for custom buttons or search bars. For this, use the `axt` modifier without an identifier.
+It is common to want to specify values or functionality for re-usable controls, but allow clients to set the test identifier or override values or functionality. This would be the case for custom buttons or search bars. For this, use the `testData` modifier.
 
 ```swift
 struct MyButton: View {
@@ -161,12 +159,12 @@ struct MyButton: View {
 
     var body: some View {
         Button("Tap me!") { action() }
-            .axt(action: action)
+            .testData(action: action)
     }
 }
 
 MyButton(action: action)
-    .axt("my_button")
+    .testId("my_button")
 ```
 
 There will only be a single element for this button exposed to the tests.
@@ -176,9 +174,9 @@ There will only be a single element for this button exposed to the tests.
   → my_button action
 ```
 
-An `axt` modifier that does not have an identifier is only exposed to tests if an identifier is provided somewhere higher up in the view hierarchy.
+Using the `testData` modifier only results in an element exposed to tests, if an identifier is provided somewhere higher up in the view hierarchy.
 
-Do not use the `axt` modifiers for native views on custom controls. For custom controls, extracting data from views is not necessary.
+Do not use the `testId(:type:)` modifiers for native views on custom controls. For custom controls, extracting data from views is not necessary.
 
 #### Inserting extra elements
 
@@ -193,8 +191,8 @@ content.alert(isPresented: $isPresented) {
         primaryButton: .default(Text("1"), action: action1),
         secondaryButton: .default(Text("2"), action: action2))
 }
-.axt(insert: "button_1", when: isPresented, label: "1", action: action1)
-.axt(insert: "button_2", when: isPresented, label: "2", action: action2)
+.testId(insert: "button_1", when: isPresented, label: "1", action: action1)
+.testId(insert: "button_2", when: isPresented, label: "2", action: action2)
 ```
 
 The elements will be exposed as siblings.
@@ -215,7 +213,7 @@ var body: some View {
         .frame(width: 50, height: 50)
         .offset(x: 0, y: dragY)
         .gesture(gesture)
-        .axt(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
+        .testId(insert: "drag", value: dragY, setValue: { dragY = $0 as? CGFloat ?? 0 })
 }
 ```
 
@@ -272,7 +270,7 @@ You can also get the direct children of an element using the `children` method. 
 
 #### Assert on elements
 
-You can check if an Axt element (still) exists (`exists`). It has an identifier given to it through the `axt` modifier (`id`), and optionally a label (`label`), value (`value`), way to perform an action (`performAction()`), and way to set the value (`setValue`).
+You can check if an Axt element (still) exists (`exists`). It has an identifier given to it through the `testId` modifier (`id`), and optionally a label (`label`), value (`value`), way to perform an action (`performAction()`), and way to set the value (`setValue`).
 
 For any Axt element, you can use `await element.watchHierarchy()` to see how the hierarchy changes while interacting with it in the simulator or on your iPhone.
 

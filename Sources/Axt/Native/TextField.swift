@@ -9,7 +9,7 @@ public struct TextFieldModifier<Content: View>: Modifier {
         }
         let _value = dig(for: Binding<String>.self, in: content)
         let value = _value?.wrappedValue
-        return content.axt(label: label, value: value, setValue: { if let newValue = $0 as? String { _value?.wrappedValue = newValue } })
+        return content.testData(label: label, value: value, setValue: { if let newValue = $0 as? String { _value?.wrappedValue = newValue } })
     }
     #endif
 }

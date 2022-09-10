@@ -9,7 +9,7 @@ public struct ToggleModifier<Content: View>: Modifier {
         // SwiftUI does not optimize state updating away for this view, and
         // so that it is ready when used in the `action` block as well.
         let isOn = _isOn?.wrappedValue
-        return content.axt(label: label, value: isOn, action: { withAnimation { _isOn?.wrappedValue.toggle() } })
+        return content.testData(label: label, value: isOn, action: { withAnimation { _isOn?.wrappedValue.toggle() } })
     }
     #endif
 }

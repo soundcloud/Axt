@@ -5,10 +5,10 @@ import Axt
 @MainActor
 class TogglesViewTests: XCTestCase {
 
-//    func testWatch() async {
-//        let test = await AxtTest.host(TogglesView())
-//        await test.watchHierarchy()
-//    }
+    func testWatch() async {
+        let test = await AxtTest.host(TogglesView())
+        await test.watchHierarchy()
+    }
 
     func testShowMore() async throws {
         let test = await AxtTest.host(TogglesView())

@@ -69,7 +69,7 @@ private struct HostView<Content: View>: View {
         content
             .border(.red, width: 2)
             .padding()
-            .axt("app")
+            .testId("app")
             .backgroundPreferenceValue(AxtPreferenceKey.self) {
                 // This is used instead of `onPreferenceChange` because that
                 // has a safety mechanism that  results in the closure not

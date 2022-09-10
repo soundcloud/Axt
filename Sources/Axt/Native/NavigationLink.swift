@@ -40,7 +40,7 @@ private struct AxtNavigationLink<Content: View>: View {
         // swiftformat:disable:next redundantLet
         let _ = isActive
         content(_isActive)
-            .axt {
+            .testData {
                 isActive.toggle()
             }
     }
