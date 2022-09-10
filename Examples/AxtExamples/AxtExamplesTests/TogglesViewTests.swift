@@ -14,7 +14,7 @@ class TogglesViewTests: XCTestCase {
         let test = await AxtTest.host(TogglesView())
         let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
 
-        moreToggle.performAction()
+        moreToggle.performActionWithoutYielding()
 
         try await test.waitForCondition(timeout: 1) {
             test.find(id: "toggle_2") != nil

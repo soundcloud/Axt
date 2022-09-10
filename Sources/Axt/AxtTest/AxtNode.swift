@@ -45,7 +45,7 @@ extension AxtNode {
         (axt?.all ?? []).filter { $0.id == id }.map { makeNode(nodeId: $0.nodeId) }
     }
 
-    public func performAction() {
+    public func performActionWithoutYielding() {
         axt?.action?()
     }
 

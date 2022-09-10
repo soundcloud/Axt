@@ -16,7 +16,7 @@ public protocol AxtElement {
     func find(id: String) -> AxtElement?
     func findAll(id: String) -> [AxtElement]
 
-    func performAction()
+    func performActionWithoutYielding()
     func setValue(_ value: Any?)
 
     func waitForCondition(timeout: TimeInterval, condition: @escaping () -> Bool) async throws
@@ -24,6 +24,13 @@ public protocol AxtElement {
     func waitForUpdate(timeout: TimeInterval) async throws
 
     func watchHierarchy() async
+}
+
+public extension AxtElement {
+    func performAction() async {
+        performActionWithoutYielding()
+        await AxtTest.yield()
+    }
 }
 
 #endif

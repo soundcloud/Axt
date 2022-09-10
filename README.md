@@ -29,8 +29,7 @@ class SettingsViewTests: XCTestCase {
         let test = await AxtTest.host(SettingsView())
         let showMoreToggle = try XCTUnwrap(test.find(id: "show_more_toggle"))
 
-        showMoreToggle.performAction()
-        await AxtTest.yield()
+        await showMoreToggle.performAction()
 
         let moreText = try XCTUnwrap(test.find(id: "more_text"))
         XCTAssertEqual(showMoreToggle.value as? Bool, true)
@@ -285,8 +284,7 @@ let toggle = try XCTUnwrap(test.find(id: "my_toggle"))
 
 XCTAssertEqual(label.value as? String, "yes")
 
-toggle.performAction()
-await AxtTest.yield()
+await toggle.performAction()
 
 XCTAssertEqual(label.value as? String, "no")
 ```
@@ -295,13 +293,13 @@ XCTAssertEqual(label.value as? String, "no")
 
 If you change the state of a variable in a SwiftUI view, for example by performing an action on a control or changing a value, SwiftUI will trigger a re-evaluation of your view. However, SwiftUI does not re-evaluate the view immediately. This is done for efficiency reasons. Therefore, you cannot make an assertion immediately after changing state.
 
-If you expect an update to happen after an action immediately after the current run loop cycle, you can use the `AxtTest.yield()` function.
+If you expect an update to happen after an action immediately after the current run loop cycle, use `performAction()`. If you don't want to give SwiftUI the time to update the views, use `performActionWithoutYielding()` instead. You can then give SwiftUI the time to update the views by calling `AxtTest.yield()`.
 
 ```swift
 let test = await AxtTest.host(TogglesView())
 let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
 
-moreToggle.performAction()
+moreToggle.performActionWithoutYielding()
 await AxtTest.yield()
 
 XCTAssertNotNil(test.find(id: "toggle_2"))
@@ -313,7 +311,7 @@ If you expect that it might take longer for the view hierarchy to update, for ex
 let test = await AxtTest.host(TogglesView())
 let moreToggle = try XCTUnwrap(test.find(id: "show_more"))
 
-moreToggle.performAction()
+await moreToggle.performAction()
 
 XCTAssertNotNil(try await test.waitForElement(id: "toggle_2", timeout: 1))
 ```

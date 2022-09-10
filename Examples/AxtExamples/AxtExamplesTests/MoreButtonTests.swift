@@ -10,8 +10,7 @@ class MoreButtonTests: XCTestCase {
         let test = await AxtTest.host(LessMenu())
         let button = try XCTUnwrap(test.find(id: "more_button"))
 
-        button.performAction()
-        await AxtTest.yield()
+        await button.performAction()
 
         let sheet = try XCTUnwrap(AxtTest.sheets.first?.value)
         XCTAssertNotNil(sheet.find(id: "more_text"))
