@@ -25,6 +25,13 @@ public struct AxtPreferenceKey: PreferenceKey {
     public static var defaultValue: [Axt] = []
 
     public static func reduce(value: inout [Axt], nextValue: () -> [Axt]) {
-        value.append(contentsOf: nextValue())
+        let axts = nextValue()
+        for axt in axts {
+            // In iOS 16, List has a bug where preferences can appear
+            // more than once, so we need to check for duplicates.
+            if !value.contains(where: { $0.nodeId == axt.nodeId }) {
+                value.append(axt)
+            }
+        }
     }
 }
