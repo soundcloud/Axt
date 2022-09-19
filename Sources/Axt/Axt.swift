@@ -19,6 +19,7 @@ public struct Axt: Equatable {
     public let action: (() -> Void)?
     public let setValue: ((Any?) -> Void)?
     public let children: [Axt]
+    public let visible: Bool
 }
 
 public struct AxtPreferenceKey: PreferenceKey {

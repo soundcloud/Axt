@@ -28,6 +28,9 @@ extension Axt {
         if action != nil {
             description.append(" action")
         }
+        if !visible {
+            description.append(" hidden")
+        }
         return description
     }
 }

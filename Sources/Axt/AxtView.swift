@@ -10,16 +10,19 @@ struct AxtView<Content: View>: View {
     let setValue: ((Any?) -> Void)?
     let content: Content
     @State private var nodeId = UUID()
+    @State private var visible = true
 
     var body: some View {
         content
             .transformPreference(AxtPreferenceKey.self) { value in
                 if value.count == 1, let placeholder = value.first, placeholder.id == nil {
-                    value = [Axt(id: identifier, nodeId: self.nodeId , label: self.label ?? placeholder.label, value: self.value ?? placeholder.value, action: self.action ?? placeholder.action, setValue: self.setValue ?? placeholder.setValue, children: placeholder.children)]
+                    value = [Axt(id: identifier, nodeId: self.nodeId , label: self.label ?? placeholder.label, value: self.value ?? placeholder.value, action: self.action ?? placeholder.action, setValue: self.setValue ?? placeholder.setValue, children: placeholder.children, visible: self.visible)]
                 } else {
-                    value = [Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: value)]
+                    value = [Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: value, visible: self.visible)]
                 }
             }
+            .onAppear { visible = true }
+            .onDisappear { visible = false }
     }
 }
 
@@ -37,7 +40,7 @@ struct AxtInsertView<Content: View>: View {
         content
             .transformPreference(AxtPreferenceKey.self) { value in
                 guard condition else { return }
-                value.append(Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: []))
+                value.append(Axt(id: identifier, nodeId: self.nodeId, label: label, value: self.value, action: action, setValue: setValue, children: [], visible: true))
             }
     }
 }
