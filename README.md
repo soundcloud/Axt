@@ -3,12 +3,14 @@
 ![](https://user-images.githubusercontent.com/13484323/185608030-21c45ddc-f90b-42e9-a8ac-e855bb090aea.svg)
 ![platform-iOS 15-green](https://user-images.githubusercontent.com/13484323/185608132-f90bd70e-4518-404d-9ba7-c24739f7c2b2.svg)
 
-With Axt you can write unit tests that interact with SwiftUI views. The views are in a fully functional state.
+Axt is a testing library for SwiftUI.
+
+Unit tests using Axt can interact with SwiftUI views, which are running live in the simulator and are in a fully functional state.
 
 ```swift
-struct SettingsView: View {
+struct MyView: View {
     @State var showMore = false
-    
+
     var body: some View {
         VStack {
             Toggle("Show more", isOn: $showMore)
@@ -19,21 +21,20 @@ struct SettingsView: View {
             }
         }
     }
-}           
+}
 ```
 
 ```swift
 @MainActor
-class SettingsViewTests: XCTestCase {
+class MyViewTests: XCTestCase {
     func testShowMore() async throws {
-        let test = await AxtTest.host(SettingsView())
-        let showMoreToggle = try XCTUnwrap(test.find(id: "show_more_toggle"))
+        let test = await AxtTest.host(MyView())
+        let showMoreToggle = test.find(id: "show_more_toggle")
 
-        await showMoreToggle.performAction()
+        await showMoreToggle?.performAction()
 
-        let moreText = try XCTUnwrap(test.find(id: "more_text"))
-        XCTAssertEqual(showMoreToggle.value as? Bool, true)
-        XCTAssertEqual(moreText.label, "More")
+        XCTAssertEqual(showMoreToggle?.value as? Bool, true)
+        XCTAssertEqual(test.find(id: "more_text")?.label, "More")
     }
 }
 ```
