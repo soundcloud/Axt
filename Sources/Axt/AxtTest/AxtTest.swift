@@ -4,8 +4,6 @@ import SwiftUI
 #if TESTABLE
 
 public final class AxtTest {
-    public let id: UUID = UUID()
-
     private var window: UIWindow!
     public private(set) var hostingController: UIViewController!
 
@@ -85,25 +83,5 @@ private struct HostView<Content: View>: View {
     }
 }
 
-extension AxtTest: UIViewControllerRepresentable {
-    public struct Coordinator {
-        let id: UUID
-    }
-
-    public func makeUIViewController(context: Context) -> UIViewController {
-        AxtTest.sheets[context.coordinator.id] = self
-        return hostingController
-    }
-
-    public func updateUIViewController(_: UIViewController, context: Context) {
-        AxtTest.sheets[context.coordinator.id] = self
-    }
-
-    public static func dismantleUIViewController(_: UIViewController, coordinator: Coordinator) {
-        AxtTest.sheets.removeValue(forKey: coordinator.id)
-    }
-
-    public func makeCoordinator() -> Coordinator { return .init(id: id) }
-}
 
 #endif
