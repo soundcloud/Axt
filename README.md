@@ -1,7 +1,8 @@
 # 🪓 Axt 
 
 ![](https://user-images.githubusercontent.com/13484323/185608030-21c45ddc-f90b-42e9-a8ac-e855bb090aea.svg)
-![platform-iOS 15-green](https://user-images.githubusercontent.com/13484323/185608132-f90bd70e-4518-404d-9ba7-c24739f7c2b2.svg)
+![](https://user-images.githubusercontent.com/13484323/185608132-f90bd70e-4518-404d-9ba7-c24739f7c2b2.svg)
+![](https://user-images.githubusercontent.com/13484323/200010051-3270dd90-1edd-42ff-b94f-cb8ba3618a4e.svg)
 
 Axt is a testing library for SwiftUI.
 
